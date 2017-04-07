@@ -1,0 +1,16 @@
+#bio_info {
+    font-size: 16;
+}
+
+#source {
+    font-size: 6;
+    color: grey;
+}
+
+.profile_card {
+    width: 100%;
+    background-color: purple;
+}
+* {
+    font-family: arial;
+}

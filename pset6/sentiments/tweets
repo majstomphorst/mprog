@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+
+# tweets.py
+# Programmeren 02 - pset 06 - exercise 05
+# By Maxim Stomphorst
+#
+# Imports the 50 most recent tweets.
+# Indexing them in positive, negative or neurtal.
+# Than printing them out with ther score and in the appropriate coller
+# 1 , positive, green
+# -1, negative, red
+# 0 , neurtal , yellow
+
+import os
+import sys
+
+from analyzer import Analyzer
+from helpers import get_user_timeline
+from analyzer import Analyzer
+from termcolor import colored
+
+
+def main():
+
+    # ensure proper usage
+    if not len(sys.argv) == 2 or not sys.argv[1].startswith("@") or len(sys.argv[1]) == 1:
+        print("Usage: ./tweets @username")
+
+    screen_name = sys.argv[1].lstrip("@")
+    tweets = get_user_timeline(screen_name, 50)
+    if tweets == None:
+        sys.exit("Faild loading user timeline")
+
+    # absolute paths to lists
+    positives_txt = os.path.join(sys.path[0], "positive-words.txt")
+    negatives_txt = os.path.join(sys.path[0], "negative-words.txt")
+
+    # instantiate analyzer
+    analyzer = Analyzer(positives_txt, negatives_txt)
+
+    for tweet in tweets:
+        score = analyzer.analyze(tweet)
+        if score > 0.0:
+            print(colored("{} {}".format(score, tweet), "green"))
+        elif score < 0.0:
+            print(colored("{} {}".format(score, tweet), "red"))
+        else:
+            print(colored("{} {}".format(score, tweet), "yellow"))
+
+
+if __name__ == "__main__":
+    main()
+

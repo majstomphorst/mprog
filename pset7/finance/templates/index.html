@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    index
+{% endblock %}
+
+{% block main %}
+    <h1>Index</h1>
+        <table class = "table">
+            <tr>
+                <th>symbol</th>
+                <th>Quantity</th>
+                <th>current value</th>
+                <th>value</th>
+            </tr>
+            {% for data in table %}
+            <tr>
+                <td>{{ data["symbol"] }}</td>
+                <td>{{ data["quantity"] }}</td>
+                <td>{{ data["current_price"] }}</td>
+                <td>{{ data["current_value"] }}</td>
+            </tr>
+            {% endfor %} 
+            <tr>
+                <td>--</td>
+                <td>--</td>
+                <td><b>Total asset value</b></td>
+                <td><b>{{ asset_value }}</b></td>
+            </tr>
+            <tr>
+                <td>--</td>
+                <td>--</td>
+                <td><b>Current credit</b></td>
+                <td><b>{{ money }}</b></td>
+            </tr>
+            <tr>
+                <td>--</td>
+                <td>--</td>
+                <td><b>Grandtotal</b></td>
+                <td><b>{{ grand_total }}</b></td>
+            </tr>
+        </table>
+{% endblock %}
+
