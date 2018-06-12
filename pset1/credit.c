@@ -1,3 +1,11 @@
+/*******************************
+ * credit.c
+ * By Maxim Stomphorst
+ * check if a credit card number is
+ * valide
+ *******************************/
+
+
 #include <stdio.h>
 #include <cs50.h>
 
