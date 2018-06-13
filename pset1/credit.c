@@ -5,9 +5,8 @@
  * valide
  *******************************/
 
-
-#include <stdio.h>
 #include <cs50.h>
+#include <stdio.h>
 
 // function declaration
 int get_card_lenght(long long card_number);
@@ -16,92 +15,111 @@ int get_first_two_digits(long long card_number);
 
 int main(void) {
 
-        // create placeholder for credit card number
-        long long card_number;
+  // create placeholder for credit card number
+  long long card_number;
 
-        // get number and validate input
-        do {
-                card_number = get_long_long("Number: ");
-        } while (card_number < 0);
+  // get number and validate input
+  do {
+    card_number = get_long_long("Number: ");
+  } while (card_number < 0);
 
-        // count the digits in card number
-        int card_lenght = get_card_lenght(card_number);
+  // count the digits in card number
+  int card_lenght = get_card_lenght(card_number);
 
-        // check valide lenght
-        if (card_lenght != 13 &&
-            card_lenght != 15 &&
-            card_lenght != 16) {
-                printf("INVALID\n");
-                exit(0);
-        }
+  // check credit card number for valide lenght
+  if (card_lenght != 13 && card_lenght != 15 && card_lenght != 16) {
+    printf("INVALID\n");
+    exit(0);
+  }
 
-        // peform luhn's algorithm
-        if (luhns_algorithm(card_number) != true) {
-                printf("INVALID\n");
-                exit(0);
-        }
+  // check credit card number with luhn's algorithm
+  if (luhns_algorithm(card_number) != true) {
+    printf("INVALID\n");
+    exit(0);
+  }
 
-        // get the first two digit's from the card number
-        int first_two = get_first_two_digits(card_number);
+  // get the first two digit's from the credit card number
+  int first_two = get_first_two_digits(card_number);
 
-        if (first_two == 34 || first_two == 37) {
-                printf("AMEX\n");
+  // check to what compay the credit card belongs
+  if (first_two == 34 || first_two == 37) {
+    printf("AMEX\n");
 
-        } else if (first_two >= 51 && first_two <= 55) {
-                printf("MASTERCARD\n");
+  } else if (first_two >= 51 && first_two <= 55) {
+    printf("MASTERCARD\n");
 
-        } else if (first_two / 10 == 4) {
-                printf("VISA\n");
+  } else if (first_two / 10 == 4) {
+    printf("VISA\n");
 
-        } else {
-                printf("INVALID\n");
-        }
-
+  } else {
+    // if the number doesnt start with a know number
+    printf("INVALID\n");
+  }
 }
 
+/*
+  Counts the amount of digits that are given to it.
+*/
 int get_card_lenght(long long card_number) {
 
-        int count = 0;
+  int count = 0;
 
-        while (card_number != 0) {
-                count++;
-                card_number = card_number / 10;
-        }
-        return count;
+  while (card_number != 0) {
+    count++;
+    card_number = card_number / 10;
+  }
+  return count;
 }
 
+/*
+  Implementation of luhn's algorithm credit card number checksum.
+  If the number passes the test it returns true.
+  If it fails returns fales.
+*/
 bool luhns_algorithm(long long card_number) {
 
-        int checksum = 0;
+  int checksum = 0;
 
-        while (card_number != 0) {
+  // every loop decreases the number until its 0
+  while (card_number != 0) {
 
-                int last_digit = card_number % 10;
-                int second_last_digit = (card_number / 10) % 10;
+    // get the last and second to last digit
+    int last_digit = card_number % 10;
+    int second_last_digit = (card_number / 10) % 10;
 
-                int sum = second_last_digit * 2;
+    // first luhns check
+    int sum = second_last_digit * 2;
 
-                if (sum > 9) {
-                        sum = 1 + (sum - 10);
-                }
+    // if sum is greater than 9 (luhns)
+    if (sum > 9) {
+      // the sum changes (if 14 its 1+4) (luhns)
+      sum = 1 + (sum - 10);
+    }
 
-                checksum += (sum + last_digit);
-                card_number /= 100;
-        }
+    // creates the checksum (luhns)
+    checksum += (sum + last_digit);
 
-        if (checksum % 10 != 0) {
-                return false;
-        } else {
-                return true;
-        }
+    // removes the last 2 digits
+    card_number /= 100;
+  }
+
+  // check if the checksum ends in a 0 (luhns)
+  if (checksum % 10 != 0) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
+/*
+  Returns the first to digits of the number that is given.
+*/
 int get_first_two_digits(long long digits) {
 
-        // get first 2 digits
-        while (digits >= 100) {
-                digits = digits / 10;
-        }
-
-        return digits;
+  // while the number has more than triple digits
+  while (digits > 99) {
+    // removes the last digit
+    digits = digits / 10;
+  }
+  return digits;
 }
