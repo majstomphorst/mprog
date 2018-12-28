@@ -1,4 +1,4 @@
 # mprog
 cs50 
 
-Right later
+Write later.
